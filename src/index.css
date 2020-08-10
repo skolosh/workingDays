@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.today{
+  background-color: brown;
+}
+
+.calendar-day {
+  text-align: center;
+}
+
+.week-day {
+  text-align: center;
+}
+
+.tail-datetime-calendar {
+  background-color: darkblue;
+  font-size: 5rem;
+  color: aliceblue;
+  text-align: center;
+}
