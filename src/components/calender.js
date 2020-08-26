@@ -13,7 +13,12 @@ class Calender extends Component {
         dateObject: moment(),
         allmonths : moment.months(),
         showMonthTable: false,
-        twelveyears: []
+        showYearTable: false,
+        twelveyears: [],
+        days: [],
+        selectedDays: [],
+        showWorkingDays: false,
+        
     }
    
     weekdayshort = moment.weekdaysShort();
@@ -81,21 +86,52 @@ class Calender extends Component {
       }
       return dateArray;
     }
-
+    
     setYear = year => {
       // alert(year)
-      //console.log(this.getDates)
-      let yearNo = this.state.twelveyears.indexOf(year);// get month number 
+      let Props = this.year();
+          let years = [];
+          let nextten = moment()
+            .set("year", Props)
+            .add("year", 12)
+            .format("Y");  
+          let twelveyears = this.getDates(Props, nextten);
+          
+          console.log(this.twelveyears)
+          let yearNo = twelveyears.indexOf(year);// get month number 
       let dateObject = Object.assign({}, this.state.dateObject);
-      dateObject = moment(dateObject).set("year", yearNo);
+      dateObject = moment(dateObject).set("year", twelveyears[yearNo] );
       this.setState({
-        dateObject: dateObject
+        dateObject: dateObject,
+        showYearTable: !this.state.showYearTable
       });
     };
 
 
+    showYear = (e, year) => {
+      this.setState({
+        showYearTable: !this.state.showYearTable
+      });
+    }
 
+    
 
+    
+
+    
+    
+
+  chosenDay = (d) => {
+    let r = this.state.selectedDays.includes(d);
+    console.log(r);
+    return r
+  }
+
+  reSetArray = (arr) => {
+    this.setState ({
+      selectedDays: arr
+    })
+  }
 
 
 
@@ -189,17 +225,14 @@ class Calender extends Component {
 
 
 
-         let Props = this.state.dateObject.format("Y");
+         let Props = this.year();
           let years = [];
           let nextten = moment()
             .set("year", Props)
             .add("year", 12)
             .format("Y");  
           let twelveyears = this.getDates(Props, nextten);
-          this.setState({
-            twelveyears: twelveyears
-          });
-          
+
           twelveyears.map((data) => {
             years.push(
               <td
@@ -253,10 +286,14 @@ class Calender extends Component {
             <table className="calendar-month">
               <thead>
                 <tr>
-                  <th colSpan="4" >Select a Yeah</th>
+                  <th colSpan="4" 
+                  onClick= {e => {
+                    this.showYear();
+                  }}
+                  >Select a Yeah</th>
                 </tr>
-              </thead>  
-            <tbody>{yearlist}</tbody>
+              </thead> 
+              {this.state.showYearTable &&  <tbody>{yearlist}</tbody>} 
             </table>
 
 
@@ -284,7 +321,19 @@ class Calender extends Component {
                 <thead>
                   <tr className ="blue darken-7">{weekdayshortname}</tr>
                 </thead>
-                <tbody>{daysinmonth}</tbody>
+                <tbody className= "daysInMonth" 
+                  onClick= {e =>{
+                    
+                    this.state.days.push(e.target.innerText);
+                    this.reSetArray(this.state.days);
+
+                    let selectedDay = this.chosenDay(e.target.innerText) ? "selected" : ""
+                    let r=  e.target.className+`${selectedDay}`;
+                    console.log(r);
+                      console.log({target:e.target})
+                  }} 
+                >
+                  {daysinmonth}</tbody>
               </table>)
             }
             

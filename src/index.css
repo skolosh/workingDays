@@ -18,10 +18,13 @@ code {
 
 .calendar-day {
   text-align: center;
+  border-radius: 20rem;
+
 }
 
 .week-day {
   text-align: center;
+
 }
 
 .tail-datetime-calendar {
@@ -29,4 +32,9 @@ code {
   font-size: 5rem;
   color: aliceblue;
   text-align: center;
+}
+.daysInMonth{
+  background-color: rgb(177, 252, 227);
+  border-radius: 30rem;
+
 }
